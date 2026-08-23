@@ -1,0 +1,31 @@
+{
+  "manifest_version": 2,
+  "name": "FocusTime",
+  "description": "Bloquea sitios web en intervalos de tiempo personalizados",
+  "version": "1.0.0",
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_title": "FocusTime",
+    "default_icon": {
+      "48": "icons/icon-48.svg",
+      "96": "icons/icon-96.svg"
+    }
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "storage",
+    "<all_urls>"
+  ],
+  "web_accessible_resources": ["blocked.html"],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "focustime@granadosmiguelandres.dev",
+      "strict_min_version": "109.0"
+    }
+  }
+}

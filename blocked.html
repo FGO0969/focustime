@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sitio bloqueado – FocusTime</title>
+  <link rel="stylesheet" href="blocked.css" />
+</head>
+<body>
+  <div class="card">
+    <span class="shield">🛡️</span>
+    <h1 class="title">Sitio bloqueado</h1>
+    <div class="domain" id="blocked-domain">—</div>
+    <p class="subtitle">
+      FocusTime está protegiendo tu tiempo.<br />
+      Este sitio está bloqueado durante este horario.
+    </p>
+    <button class="btn-back" onclick="history.back()">← Volver</button>
+    <p class="time-info" id="time-info"></p>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    const url = params.get('url') || '';
+    try {
+      const hostname = new URL(url).hostname.replace(/^www\./, '');
+      document.getElementById('blocked-domain').textContent = hostname;
+    } catch (_) {}
+
+    const now = new Date();
+    document.getElementById('time-info').textContent =
+      now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+  </script>
+</body>
+</html>
