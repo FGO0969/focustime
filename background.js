@@ -30,8 +30,6 @@ function shouldBlock(url) {
     const hostname = new URL(url).hostname.replace(/^www\./, '');
 
     for (const rule of rules) {
-      if (!rule.enabled) continue;
-
       const ruleDomain = rule.domain.replace(/^www\./, '').toLowerCase().trim();
 
       if (hostname === ruleDomain || hostname.endsWith('.' + ruleDomain)) {

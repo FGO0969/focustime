@@ -215,50 +215,6 @@ body {
   margin-top: 2px;
 }
 
-.rule-card.disabled .rule-domain {
-  color: var(--text-secondary);
-}
-
-/* ── Toggle Switch ── */
-.toggle {
-  position: relative;
-  width: 44px;
-  height: 26px;
-  flex-shrink: 0;
-}
-.toggle input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-  position: absolute;
-}
-.toggle-track {
-  position: absolute;
-  inset: 0;
-  background: var(--text-tertiary);
-  border-radius: 13px;
-  transition: background 0.25s;
-  cursor: pointer;
-}
-.toggle input:checked + .toggle-track {
-  background: var(--success);
-}
-.toggle-track::after {
-  content: '';
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  top: 2px;
-  left: 2px;
-  background: white;
-  border-radius: 50%;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.20);
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.toggle input:checked + .toggle-track::after {
-  transform: translateX(18px);
-}
-
 /* ── Rule Actions ── */
 .rule-actions {
   display: flex;

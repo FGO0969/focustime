@@ -24,7 +24,6 @@ function uid() {
 }
 
 function isCurrentlyBlocked(rule) {
-  if (!rule.enabled) return false;
   const now = new Date();
   const day = now.getDay();
   const mins = now.getHours() * 60 + now.getMinutes();
@@ -91,7 +90,7 @@ function renderList() {
   rules.forEach(rule => {
     const blocking = isCurrentlyBlocked(rule);
     const card = document.createElement('div');
-    card.className = 'rule-card' + (rule.enabled ? '' : ' disabled');
+    card.className = 'rule-card';
 
     const slotSummary = rule.timeSlots.length === 1
       ? formatSlotSummary(rule.timeSlots[0])
@@ -99,9 +98,7 @@ function renderList() {
 
     const badge = blocking
       ? `<span class="status-badge blocking">● Bloqueando</span>`
-      : rule.enabled
-        ? `<span class="status-badge active">● Activo</span>`
-        : '';
+      : `<span class="status-badge active">● Activo</span>`;
 
     card.innerHTML = `
       <div class="rule-card-main">
@@ -110,20 +107,11 @@ function renderList() {
           <div class="rule-domain">${rule.domain}</div>
           <div class="rule-meta">${slotSummary} ${badge}</div>
         </div>
-        <label class="toggle">
-          <input type="checkbox" ${rule.enabled ? 'checked' : ''} data-id="${rule.id}" />
-          <div class="toggle-track"></div>
-        </label>
       </div>
       <div class="rule-actions">
         <button class="rule-action-btn edit" data-id="${rule.id}">✏️ Editar</button>
         <button class="rule-action-btn delete" data-id="${rule.id}">🗑 Eliminar</button>
       </div>`;
-
-    card.querySelector('input[type="checkbox"]').addEventListener('change', async e => {
-      const r = rules.find(x => x.id === e.target.dataset.id);
-      if (r) { r.enabled = e.target.checked; await saveRules(); renderList(); }
-    });
 
     card.querySelector('.edit').addEventListener('click', e => {
       openForm(e.target.dataset.id);
@@ -252,7 +240,7 @@ async function saveForm() {
     rule.domain = domain;
     rule.timeSlots = validSlots;
   } else {
-    rules.push({ id: uid(), domain, timeSlots: validSlots, enabled: true });
+    rules.push({ id: uid(), domain, timeSlots: validSlots });
   }
 
   await saveRules();
