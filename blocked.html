@@ -7,13 +7,22 @@
   <link rel="stylesheet" href="blocked.css" />
 </head>
 <body>
+  <div class="bg-canvas">
+    <div class="bg-blob"></div>
+    <div class="bg-blob"></div>
+    <div class="bg-blob"></div>
+  </div>
+
   <div class="card">
     <span class="shield">🛡️</span>
     <h1 class="title">Sitio bloqueado</h1>
-    <div class="domain" id="blocked-domain">—</div>
+    <div class="domain-pill">
+      <img class="domain-favicon" id="domain-favicon" src="" alt="" />
+      <span id="blocked-domain">—</span>
+    </div>
     <p class="subtitle">
       FocusTime está protegiendo tu tiempo.<br />
-      Este sitio está bloqueado durante este horario.
+      Este sitio está bloqueado en este horario.
     </p>
     <button class="btn-back" onclick="history.back()">← Volver</button>
     <p class="time-info" id="time-info"></p>
@@ -25,8 +34,14 @@
     try {
       const hostname = new URL(url).hostname.replace(/^www\./, '');
       document.getElementById('blocked-domain').textContent = hostname;
-    } catch (_) {}
-
+      document.getElementById('domain-favicon').src =
+        `https://www.google.com/s2/favicons?domain=${hostname}&sz=32`;
+      document.getElementById('domain-favicon').onerror = function() {
+        this.style.display = 'none';
+      };
+    } catch (_) {
+      document.getElementById('domain-favicon').style.display = 'none';
+    }
     const now = new Date();
     document.getElementById('time-info').textContent =
       now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });

@@ -8,66 +8,68 @@
 </head>
 <body>
 
+  <!-- Liquid Glass background -->
+  <div class="bg-canvas">
+    <div class="bg-blob"></div>
+    <div class="bg-blob"></div>
+    <div class="bg-blob"></div>
+  </div>
+
   <!-- ────── VIEW: Lista de reglas ────── -->
   <div class="view active" id="view-list">
     <div class="navbar">
-      <div style="min-width:60px"></div>
+      <div class="navbar-left">
+        <button class="btn-theme" id="btn-theme" title="Cambiar tema">🌙</button>
+      </div>
       <div class="navbar-center">
         <span class="navbar-title">FocusTime</span>
       </div>
-      <div style="min-width:60px; display:flex; justify-content:flex-end">
-        <button class="btn-icon-round" id="btn-new-rule" title="Nueva regla">+</button>
+      <div class="navbar-right">
+        <button class="btn-add" id="btn-new-rule" title="Nueva regla">+</button>
       </div>
     </div>
 
-    <div class="scroll-area" id="rules-container">
-      <!-- Populated by JS -->
-    </div>
+    <div class="scroll-area" id="rules-container"></div>
   </div>
 
   <!-- ────── VIEW: Formulario ────── -->
   <div class="view" id="view-form">
     <div class="navbar">
-      <button class="btn-nav left" id="btn-back">← Volver</button>
+      <div class="navbar-left">
+        <button class="btn-nav" id="btn-back">← Volver</button>
+      </div>
       <div class="navbar-center">
         <span class="navbar-title" id="form-title">Nueva regla</span>
       </div>
-      <button class="btn-nav right bold" id="btn-save">Guardar</button>
+      <div class="navbar-right">
+        <button class="btn-nav bold" id="btn-save">Guardar</button>
+      </div>
     </div>
 
     <div class="scroll-area">
 
-      <!-- Domain -->
       <div class="form-section">
         <div class="form-label">Sitio web</div>
         <div class="form-card">
           <div class="form-field">
             <span class="field-icon">🌐</span>
-            <input
-              class="form-input"
-              id="input-domain"
-              type="text"
-              placeholder="ejemplo.com"
-              autocomplete="off"
-              spellcheck="false"
-            />
+            <input class="form-input" id="input-domain" type="text"
+              placeholder="ejemplo.com" autocomplete="off" spellcheck="false" />
           </div>
         </div>
         <div class="field-error" id="error-domain">Introduce un dominio válido</div>
       </div>
 
-      <!-- Time Slots -->
       <div class="form-section">
         <div class="form-label">Horarios de bloqueo</div>
         <div id="slots-container"></div>
         <div class="field-error" id="error-slots">Añade al menos un horario</div>
         <button class="btn-add-slot" id="btn-add-slot">
-          <span style="font-size:18px; line-height:1">+</span>
+          <span style="font-size:18px;line-height:1">+</span>
           Añadir horario
         </button>
       </div>
 
-      <!-- Save -->
       <div class="form-section">
         <button class="btn-primary" id="btn-save-bottom">Guardar regla</button>
       </div>

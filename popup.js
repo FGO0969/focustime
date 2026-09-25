@@ -1,6 +1,30 @@
 const RULES_KEY = 'focustime_rules';
+const THEME_KEY = 'focustime_theme';
 const DAYS_LABELS = ['D', 'L', 'M', 'X', 'J', 'V', 'S'];
 const DAYS_FULL = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+
+// ── Theme ─────────────────────────────────────────────────
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  document.getElementById('btn-theme').textContent = theme === 'dark' ? '☀️' : '🌙';
+}
+
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+  try { localStorage.setItem(THEME_KEY, next); } catch (_) {}
+}
+
+function loadTheme() {
+  try {
+    const saved = localStorage.getItem(THEME_KEY);
+    if (saved) { applyTheme(saved); return; }
+  } catch (_) {}
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(prefersDark ? 'dark' : 'light');
+}
 
 let rules = [];
 let editingId = null;
@@ -43,11 +67,15 @@ function formatSlotSummary(slot) {
   return `${slot.start} – ${slot.end}  ·  ${dayNames}`;
 }
 
-function getDomainIcon(domain) {
+function getFaviconUrl(domain) {
+  return `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
+}
+
+function getDomainEmoji(domain) {
   const d = domain.toLowerCase();
   if (d.includes('youtube') || d.includes('youtu.be')) return '▶️';
   if (d.includes('instagram')) return '📷';
-  if (d.includes('twitter') || d.includes('x.com')) return '🐦';
+  if (d.includes('twitter') || d.includes('x.com')) return '𝕏';
   if (d.includes('facebook') || d.includes('fb.com')) return '👥';
   if (d.includes('tiktok')) return '🎵';
   if (d.includes('reddit')) return '🤖';
@@ -57,6 +85,15 @@ function getDomainIcon(domain) {
   if (d.includes('telegram')) return '✈️';
   if (d.includes('amazon')) return '📦';
   return '🔒';
+}
+
+function faviconHtml(domain) {
+  const src = getFaviconUrl(domain);
+  const fallback = getDomainEmoji(domain);
+  return `
+    <img class="rule-favicon" src="${src}"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+    <span class="rule-icon-fallback">${fallback}</span>`;
 }
 
 // ── View switching ────────────────────────────────────────
@@ -102,7 +139,7 @@ function renderList() {
 
     card.innerHTML = `
       <div class="rule-card-main">
-        <div class="rule-icon-wrap">${getDomainIcon(rule.domain)}</div>
+        <div class="rule-icon-wrap">${faviconHtml(rule.domain)}</div>
         <div class="rule-info">
           <div class="rule-domain">${rule.domain}</div>
           <div class="rule-meta">${slotSummary} ${badge}</div>
@@ -258,8 +295,10 @@ document.getElementById('btn-add-slot').addEventListener('click', () => {
   formSlots.push(makeSlot());
   renderFormSlots();
 });
+document.getElementById('btn-theme').addEventListener('click', toggleTheme);
 
 (async () => {
+  loadTheme();
   await loadRules();
   renderList();
 })();
