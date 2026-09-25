@@ -2,14 +2,14 @@
 
 /* ── Tokens: Light ── */
 :root {
-  --grad-1: #c8e6ff;
-  --grad-2: #e8d5ff;
-  --grad-3: #ffd6e8;
+  --grad-1: #c8f5e2;
+  --grad-2: #d5f5c8;
+  --grad-3: #c8f0d5;
 
   --glass-bg:      rgba(255, 255, 255, 0.45);
   --glass-border:  rgba(255, 255, 255, 0.75);
   --glass-shine:   rgba(255, 255, 255, 0.60);
-  --glass-shadow:  0 8px 32px rgba(80, 60, 120, 0.13), inset 0 1px 0 rgba(255,255,255,0.65);
+  --glass-shadow:  0 8px 32px rgba(40, 120, 80, 0.13), inset 0 1px 0 rgba(255,255,255,0.65);
   --glass-blur:    blur(24px) saturate(180%);
 
   --navbar-bg:     rgba(255, 255, 255, 0.55);
@@ -36,24 +36,24 @@
 /* ── Tokens: Dark ── */
 :root[data-theme="dark"],
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --grad-1: #0a1628;
-  --grad-2: #1a0a2e;
-  --grad-3: #0a1a28;
+  --grad-1: #0a1f14;
+  --grad-2: #0d2218;
+  --grad-3: #091a10;
 
-  --glass-bg:      rgba(30, 28, 45, 0.52);
-  --glass-border:  rgba(255, 255, 255, 0.10);
+  --glass-bg:      rgba(15, 35, 22, 0.55);
+  --glass-border:  rgba(80, 255, 140, 0.10);
   --glass-shine:   rgba(255, 255, 255, 0.07);
-  --glass-shadow:  0 8px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255,255,255,0.08);
+  --glass-shadow:  0 8px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(80,255,140,0.08);
 
-  --navbar-bg:     rgba(20, 18, 35, 0.62);
-  --navbar-border: rgba(255, 255, 255, 0.08);
+  --navbar-bg:     rgba(10, 25, 15, 0.65);
+  --navbar-border: rgba(80, 255, 140, 0.08);
 
   --text:          #FFFFFF;
   --text-secondary:#98989d;
   --text-tertiary: #6c6c70;
 
-  --accent:        #409CFF;
-  --accent-glass:  rgba(64, 156, 255, 0.18);
+  --accent:        #32d74b;
+  --accent-glass:  rgba(50, 215, 75, 0.18);
   --destructive:   #FF6961;
   --destruct-glass:rgba(255, 105, 97, 0.16);
   --success:       #30d158;
@@ -64,20 +64,20 @@
 }}
 
 :root[data-theme="dark"] {
-  --grad-1: #0a1628;
-  --grad-2: #1a0a2e;
-  --grad-3: #0a1a28;
-  --glass-bg:      rgba(30, 28, 45, 0.52);
-  --glass-border:  rgba(255, 255, 255, 0.10);
+  --grad-1: #0a1f14;
+  --grad-2: #0d2218;
+  --grad-3: #091a10;
+  --glass-bg:      rgba(15, 35, 22, 0.55);
+  --glass-border:  rgba(80, 255, 140, 0.10);
   --glass-shine:   rgba(255, 255, 255, 0.07);
-  --glass-shadow:  0 8px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255,255,255,0.08);
-  --navbar-bg:     rgba(20, 18, 35, 0.62);
-  --navbar-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow:  0 8px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(80,255,140,0.08);
+  --navbar-bg:     rgba(10, 25, 15, 0.65);
+  --navbar-border: rgba(80, 255, 140, 0.08);
   --text:          #FFFFFF;
   --text-secondary:#98989d;
   --text-tertiary: #6c6c70;
-  --accent:        #409CFF;
-  --accent-glass:  rgba(64, 156, 255, 0.18);
+  --accent:        #32d74b;
+  --accent-glass:  rgba(50, 215, 75, 0.18);
   --destructive:   #FF6961;
   --destruct-glass:rgba(255, 105, 97, 0.16);
   --success:       #30d158;
@@ -117,19 +117,19 @@ body {
 }
 .bg-blob:nth-child(1) {
   width: 200px; height: 200px;
-  background: radial-gradient(circle, rgba(120,180,255,0.7), transparent);
+  background: radial-gradient(circle, rgba(80,220,140,0.70), transparent);
   top: -40px; left: -40px;
   animation-delay: 0s;
 }
 .bg-blob:nth-child(2) {
   width: 180px; height: 180px;
-  background: radial-gradient(circle, rgba(180,120,255,0.65), transparent);
+  background: radial-gradient(circle, rgba(100,200,100,0.60), transparent);
   top: 60px; right: -30px;
   animation-delay: -4s;
 }
 .bg-blob:nth-child(3) {
   width: 160px; height: 160px;
-  background: radial-gradient(circle, rgba(255,140,180,0.55), transparent);
+  background: radial-gradient(circle, rgba(60,240,160,0.55), transparent);
   bottom: 20px; left: 20px;
   animation-delay: -8s;
 }

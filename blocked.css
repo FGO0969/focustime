@@ -1,9 +1,9 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --grad-1: #c8e6ff;
-  --grad-2: #e8d5ff;
-  --grad-3: #ffd6e8;
+  --grad-1: #c8f5e2;
+  --grad-2: #d5f5c8;
+  --grad-3: #c8f0d5;
   --glass-bg:     rgba(255, 255, 255, 0.42);
   --glass-border: rgba(255, 255, 255, 0.72);
   --glass-shadow: 0 16px 48px rgba(80, 60, 120, 0.16), inset 0 1px 0 rgba(255,255,255,0.65);
@@ -56,18 +56,18 @@ body {
 }
 .bg-blob:nth-child(1) {
   width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(120,180,255,0.6), transparent);
+  background: radial-gradient(circle, rgba(80,220,140,0.65), transparent);
   top: -100px; left: -100px;
 }
 .bg-blob:nth-child(2) {
   width: 350px; height: 350px;
-  background: radial-gradient(circle, rgba(180,100,255,0.55), transparent);
+  background: radial-gradient(circle, rgba(60,200,100,0.55), transparent);
   bottom: -80px; right: -80px;
   animation-delay: -7s;
 }
 .bg-blob:nth-child(3) {
   width: 300px; height: 300px;
-  background: radial-gradient(circle, rgba(255,130,180,0.45), transparent);
+  background: radial-gradient(circle, rgba(100,240,160,0.45), transparent);
   top: 40%; left: 30%;
   animation-delay: -3.5s;
 }

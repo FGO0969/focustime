@@ -68,7 +68,8 @@ function formatSlotSummary(slot) {
 }
 
 function getFaviconUrl(domain) {
-  return `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
+  const clean = domain.replace(/^www\./, '');
+  return `https://www.google.com/s2/favicons?domain=${clean}&sz=32`;
 }
 
 function getDomainEmoji(domain) {
