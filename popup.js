@@ -84,13 +84,13 @@ function getDomainEmoji(domain) {
 }
 
 function faviconHtml(domain) {
-  const clean = domain.replace(/^www\./, '');
-  const google = `https://www.google.com/s2/favicons?domain=${clean}&sz=32`;
+  const clean  = domain.replace(/^www\./, '');
   const ddg    = `https://icons.duckduckgo.com/ip3/${clean}.ico`;
+  const google = `https://www.google.com/s2/favicons?domain=${clean}&sz=32`;
   const emoji  = getDomainEmoji(domain);
   return `
-    <img class="rule-favicon" src="${google}"
-         onerror="this.src='${ddg}'; this.onerror=function(){this.style.display='none';this.nextElementSibling.style.display='flex';};" />
+    <img class="rule-favicon" src="${ddg}"
+         onerror="this.src='${google}'; this.onerror=function(){this.style.display='none';this.nextElementSibling.style.display='flex';};" />
     <span class="rule-icon-fallback">${emoji}</span>`;
 }
 
