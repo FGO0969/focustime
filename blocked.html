@@ -34,10 +34,13 @@
     try {
       const hostname = new URL(url).hostname.replace(/^www\./, '');
       document.getElementById('blocked-domain').textContent = hostname;
-      document.getElementById('domain-favicon').src =
-        `https://www.google.com/s2/favicons?domain=${hostname}&sz=32`;
-      document.getElementById('domain-favicon').onerror = function() {
-        this.style.display = 'none';
+      const img = document.getElementById('domain-favicon');
+      const ddg    = `https://icons.duckduckgo.com/ip3/${hostname}.ico`;
+      const google = `https://www.google.com/s2/favicons?domain=${hostname}&sz=32`;
+      img.src = ddg;
+      img.onerror = function() {
+        this.src = google;
+        this.onerror = function() { this.style.display = 'none'; };
       };
     } catch (_) {
       document.getElementById('domain-favicon').style.display = 'none';
