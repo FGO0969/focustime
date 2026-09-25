@@ -203,12 +203,10 @@ function renderFormSlots() {
 
     card.innerHTML = `
       <div class="slot-row">
-        <span class="slot-label">De</span>
         <input class="form-input-time" type="time" value="${slot.start}"
-               data-slot="${slot.id}" data-field="start" />
+               data-slot="${slot.id}" data-field="start" title="Desde" />
         <span class="time-separator">→</span>
-        <span class="slot-label">A</span>
-        <input class="form-input-time" type="time" value="${slot.end}"
+        <input class="form-input-time" type="time" value="${slot.end}" title="Hasta"
                data-slot="${slot.id}" data-field="end" />
         ${formSlots.length > 1
           ? `<button class="btn-remove-slot" data-slot="${slot.id}">−</button>`

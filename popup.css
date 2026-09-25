@@ -451,15 +451,21 @@ body {
 .form-input::placeholder { color: var(--text-tertiary); }
 
 .form-input-time {
-  border: none;
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--glass-border);
   outline: none;
-  background: transparent;
+  background: var(--day-bg);
+  border-radius: var(--radius-sm);
+  padding: 7px 6px;
   font-family: inherit;
-  font-size: 15px;
+  font-size: 14px;
   color: var(--text);
-  width: 82px;
   text-align: center;
+  color-scheme: light;
 }
+:root[data-theme="dark"] .form-input-time { color-scheme: dark; }
+.form-input-time:focus { border-color: var(--accent); }
 
 .time-separator {
   color: var(--text-secondary);
