@@ -167,6 +167,7 @@ function renderList() {
 
 function openForm(ruleId = null) {
   editingId = ruleId;
+  openPicker = null;
   document.getElementById('form-title').textContent = ruleId ? 'Editar regla' : 'Nueva regla';
   document.getElementById('error-domain').classList.remove('visible');
   document.getElementById('error-slots').classList.remove('visible');
@@ -188,11 +189,55 @@ function makeSlot() {
   return { id: uid(), start: '09:00', end: '18:00', days: [1, 2, 3, 4, 5] };
 }
 
+// ── Time picker ───────────────────────────────────────────
+
+let openPicker = null; // { slotId, field }
+
+function to12(hhmm) {
+  const [h, m] = hhmm.split(':').map(Number);
+  return { h12: h % 12 === 0 ? 12 : h % 12, m, pm: h >= 12 };
+}
+
+function from12(h12, m, pm) {
+  const h = (h12 % 12) + (pm ? 12 : 0);
+  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+}
+
+function formatTime(hhmm) {
+  const { h12, m, pm } = to12(hhmm);
+  return `${h12}:${String(m).padStart(2, '0')} ${pm ? 'p. m.' : 'a. m.'}`;
+}
+
+function pickerHtml(value) {
+  const { h12, m, pm } = to12(value);
+  const minutes = Array.from({ length: 12 }, (_, i) => i * 5);
+  if (!minutes.includes(m)) { minutes.push(m); minutes.sort((a, b) => a - b); }
+
+  const col = (part, items, isSel, label) => `
+    <div class="picker-col" data-part="${part}">
+      ${items.map(v => `<button class="picker-opt ${isSel(v) ? 'selected' : ''}" data-part="${part}" data-value="${v}">${label(v)}</button>`).join('')}
+    </div>`;
+
+  return `
+    <div class="time-picker">
+      ${col('h', Array.from({ length: 12 }, (_, i) => i + 1), v => v === h12, v => v)}
+      ${col('m', minutes, v => v === m, v => String(v).padStart(2, '0'))}
+      ${col('p', [0, 1], v => (v === 1) === pm, v => (v ? 'p. m.' : 'a. m.'))}
+    </div>`;
+}
+
+function centerSelected(root) {
+  root.querySelectorAll('.picker-col').forEach(col => {
+    const sel = col.querySelector('.selected');
+    if (sel) col.scrollTop = sel.offsetTop - col.clientHeight / 2 + sel.offsetHeight / 2;
+  });
+}
+
 function renderFormSlots() {
   const container = document.getElementById('slots-container');
   container.innerHTML = '';
 
-  formSlots.forEach((slot, idx) => {
+  formSlots.forEach(slot => {
     const card = document.createElement('div');
     card.className = 'slot-card';
 
@@ -201,23 +246,39 @@ function renderFormSlots() {
               data-slot="${slot.id}" data-day="${d}">${label}</button>
     `).join('');
 
+    const isOpen = field => openPicker && openPicker.slotId === slot.id && openPicker.field === field;
+    const openField = openPicker && openPicker.slotId === slot.id ? openPicker.field : null;
+
     card.innerHTML = `
       <div class="slot-row">
-        <input class="form-input-time" type="time" value="${slot.start}"
-               data-slot="${slot.id}" data-field="start" title="Desde" />
+        <button class="time-pill ${isOpen('start') ? 'open' : ''}" data-field="start" title="Desde">${formatTime(slot.start)}</button>
         <span class="time-separator">→</span>
-        <input class="form-input-time" type="time" value="${slot.end}" title="Hasta"
-               data-slot="${slot.id}" data-field="end" />
+        <button class="time-pill ${isOpen('end') ? 'open' : ''}" data-field="end" title="Hasta">${formatTime(slot.end)}</button>
         ${formSlots.length > 1
           ? `<button class="btn-remove-slot" data-slot="${slot.id}">−</button>`
-          : '<div style="width:22px"></div>'}
+          : ''}
       </div>
+      ${openField ? pickerHtml(slot[openField]) : ''}
       <div class="days-row">${daysHtml}</div>`;
 
-    card.querySelectorAll('.form-input-time').forEach(input => {
-      input.addEventListener('change', e => {
-        const s = formSlots.find(x => x.id === e.target.dataset.slot);
-        if (s) s[e.target.dataset.field] = e.target.value;
+    card.querySelectorAll('.time-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const field = btn.dataset.field;
+        openPicker = isOpen(field) ? null : { slotId: slot.id, field };
+        renderFormSlots();
+      });
+    });
+
+    card.querySelectorAll('.picker-opt').forEach(opt => {
+      opt.addEventListener('click', () => {
+        const field = openPicker.field;
+        let { h12, m, pm } = to12(slot[field]);
+        const v = Number(opt.dataset.value);
+        if (opt.dataset.part === 'h') h12 = v;
+        if (opt.dataset.part === 'm') m = v;
+        if (opt.dataset.part === 'p') pm = v === 1;
+        slot[field] = from12(h12, m, pm);
+        renderFormSlots();
       });
     });
 
@@ -237,11 +298,13 @@ function renderFormSlots() {
     if (removeBtn) {
       removeBtn.addEventListener('click', e => {
         formSlots = formSlots.filter(x => x.id !== e.target.dataset.slot);
+        if (openPicker && openPicker.slotId === e.target.dataset.slot) openPicker = null;
         renderFormSlots();
       });
     }
 
     container.appendChild(card);
+    centerSelected(card);
   });
 }
 
