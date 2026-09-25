@@ -60,7 +60,7 @@ Cuando intentas visitar un sitio bloqueado, ves una pantalla de aviso en lugar d
 
 **Paso 2** — Copia la extensión al perfil:
 
-1. Descarga o clona este repositorio
+1. Descarga `focustime.xpi` desde la página de [Releases](https://github.com/FGO0969/focustime/releases/latest)
 2. Abre PowerShell y ejecuta:
 
 ```powershell
