@@ -67,11 +67,6 @@ function formatSlotSummary(slot) {
   return `${slot.start} – ${slot.end}  ·  ${dayNames}`;
 }
 
-function getFaviconUrl(domain) {
-  const clean = domain.replace(/^www\./, '');
-  return `https://www.google.com/s2/favicons?domain=${clean}&sz=32`;
-}
-
 function getDomainEmoji(domain) {
   const d = domain.toLowerCase();
   if (d.includes('youtube') || d.includes('youtu.be')) return '▶️';
@@ -89,12 +84,14 @@ function getDomainEmoji(domain) {
 }
 
 function faviconHtml(domain) {
-  const src = getFaviconUrl(domain);
-  const fallback = getDomainEmoji(domain);
+  const clean = domain.replace(/^www\./, '');
+  const google = `https://www.google.com/s2/favicons?domain=${clean}&sz=32`;
+  const ddg    = `https://icons.duckduckgo.com/ip3/${clean}.ico`;
+  const emoji  = getDomainEmoji(domain);
   return `
-    <img class="rule-favicon" src="${src}"
-         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-    <span class="rule-icon-fallback">${fallback}</span>`;
+    <img class="rule-favicon" src="${google}"
+         onerror="this.src='${ddg}'; this.onerror=function(){this.style.display='none';this.nextElementSibling.style.display='flex';};" />
+    <span class="rule-icon-fallback">${emoji}</span>`;
 }
 
 // ── View switching ────────────────────────────────────────
